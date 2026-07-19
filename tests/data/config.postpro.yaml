@@ -1,0 +1,22 @@
+activeEventActions:
+- action: ignore
+  exclude:
+    hasTag: youtube
+    logic: or
+    processName: vlc|mpc-hc64
+  when:
+    idleForGreaterThanSec: 300
+    logic: and
+- action: setAttribute
+  attribute: category
+  value: browser
+  when:
+    logic: and
+    name: firefox|brave|waterfox|chrome|chromium|opera|msedge
+- action: setAttribute
+  attribute: category
+  value: youtube
+  when:
+    hasTag: youtube
+    logic: and
+activeEventMaxDurationSec: 60

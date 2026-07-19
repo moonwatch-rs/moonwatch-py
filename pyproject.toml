@@ -1,0 +1,32 @@
+[project]
+name = "moonwatch-py"
+version = "0.1.0"
+readme = "README.md"
+license = { file = "LICENSE.txt" }
+authors = [
+    { name = "Tomas Karabela", email = "tkarabela@seznam.cz" },
+]
+requires-python = ">=3.12"
+dependencies = [
+    "polars>=1.42.1",
+    "pydantic>=2.13.4",
+    "pydantic-yaml>=1.7.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/moonwatch-rs/moonwatch-py"
+Repository = "https://github.com/moonwatch-rs/moonwatch-py"
+"Bug Tracker" = "https://github.com/moonwatch-rs/moonwatch-py/issues"
+
+[project.optional-dependencies]
+jupyter = [
+    "jupyterlab>=4.6.1",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=2.3.0",
+    "pytest>=9.1.1",
+    "pytest-datadir>=1.8.0",
+    "ruff>=0.15.22",
+]

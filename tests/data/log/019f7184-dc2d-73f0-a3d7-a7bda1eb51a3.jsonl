@@ -1,0 +1,2 @@
+{"data":{"duration":15.0,"hostname":"my-windows-pc","idleFor":0.0,"processPath":"C:\\Program Files\\Mozilla Firefox\\firefox.exe","tags":[],"username":"my-username"},"time":"2026-07-17T12:00:00.000000000+00:00","type":"ActiveWindowEventV1"}
+{"data":{"duration":15.0,"hostname":"my-windows-pc","idleFor":3600.0,"processPath":"C:\\Program Files\\Mozilla Firefox\\firefox.exe","tags":[],"username":"my-username"},"time":"2026-07-17T13:00:00.000000000+00:00","type":"ActiveWindowEventV1"}

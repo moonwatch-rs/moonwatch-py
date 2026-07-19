@@ -1,0 +1,6 @@
+logDirectory: log
+logOutputSubdirectory: .
+postprocessingConfigPath: config.postpro.yaml
+preprocessingConfigPath: config.prepro.yaml
+sampleEverySec: 150
+writeEverySec: 21600

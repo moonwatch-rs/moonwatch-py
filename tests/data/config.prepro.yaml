@@ -1,0 +1,6 @@
+activeWindowEvent:
+- then:
+    addTag: youtube
+  when:
+    processPath: firefox
+    windowTitle: YouTube

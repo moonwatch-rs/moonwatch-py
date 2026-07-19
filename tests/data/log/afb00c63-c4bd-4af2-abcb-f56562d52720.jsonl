@@ -1,0 +1,2 @@
+{"type":"ActiveActivityEventV1","time":"2026-07-15T13:00:00.000+00:00","data":{"duration":250,"hostname":"my-android-phone","applicationLabel":"Firefox","applicationId":"org.mozilla.firefox"}}
+{"type":"DeviceUnlockEventV1","time":"2026-07-15T12:59:00.000+00:00","data":{"hostname":"my-android-phone"}}
