@@ -238,7 +238,7 @@ class _ActiveActivityEventV1DataframeParser(_EventDataframeParserBase):
         self.event_types["ActiveActivityEventV1"] = self._convert_v1_df
 
     def get_schema(self) -> pl.Schema:
-        return pl.Schema({
+        return pl.Schema({  # type: ignore[arg-type]
             "time": pt.Datetime(),
             "duration": pt.Duration(),
             "hostname": pt.String,
@@ -287,7 +287,7 @@ class _DeviceUnlockEventV1DataframeParser(_EventDataframeParserBase):
         self.event_types["DeviceUnlockEventV1"] = self._convert_v1_df
 
     def get_schema(self) -> pl.Schema:
-        return pl.Schema({
+        return pl.Schema({  # type: ignore[arg-type]
             "time": pt.Datetime(),
             "hostname": pt.String,
         })
