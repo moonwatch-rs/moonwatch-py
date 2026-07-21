@@ -24,5 +24,5 @@ def test_postpro_workflow(log_filename, shared_datadir, tmp_path):
     assert output_path.exists()
 
     output_path = tmp_path.joinpath("test3.db")
-    output.write_database(f"sqlite://{output_path}")
+    output.write_database(f"sqlite:///{output_path.as_posix()}")
     assert output_path.exists()
