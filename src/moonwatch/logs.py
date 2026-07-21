@@ -8,6 +8,7 @@ import gzip
 import polars as pl
 import polars.datatypes as pt
 import polars.selectors as cs
+from tqdm import tqdm
 
 from moonwatch.common import PathOrStr
 from moonwatch.models import MoonwatchEvent, _MoonwatchEvent, KNOWN_EVENT_TYPES
@@ -131,7 +132,12 @@ class _EventDataframeParserBase(ABC):
     def get_df(self) -> pl.DataFrame:
         chunks: list[pl.DataFrame] = []
 
-        for path, raw_df in self.parser._iter_df():
+        for path, raw_df in tqdm(
+                self.parser._iter_df(),
+                desc="Parsing log files",
+                total=len(self.parser.logs),
+                unit="log"
+        ):
             for event_type, convert_fn in self.event_types.items():
                 df = raw_df.filter(type=event_type)
                 if not df.is_empty():

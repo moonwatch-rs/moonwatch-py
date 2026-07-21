@@ -1,11 +1,13 @@
 from argparse import ArgumentParser
 
 from moonwatch.cli.base import Subcommand
+from moonwatch.cli.postpro import PostproSQLSubcommand
 from moonwatch.cli.spec_generator import SpecGeneratorSubcommand
 
 
 class MoonwatchCLI:
     SUBCOMMANDS: list[type[Subcommand]] = [
+        PostproSQLSubcommand,
         SpecGeneratorSubcommand,
     ]
 

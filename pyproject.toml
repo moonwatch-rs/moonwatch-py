@@ -8,9 +8,13 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = [
+    "adbc-driver-manager>=1.11.0",
+    "adbc-driver-postgresql>=1.11.0",
+    "adbc-driver-sqlite>=1.11.0",
     "polars>=1.42.1",
     "pydantic>=2.13.4",
     "pydantic-yaml>=1.7.0",
+    "tqdm>=4.69.0",
 ]
 
 [project.urls]
@@ -29,4 +33,5 @@ dev = [
     "pytest>=9.1.1",
     "pytest-datadir>=1.8.0",
     "ruff>=0.15.22",
+    "types-tqdm>=4.69.0.20260720",
 ]

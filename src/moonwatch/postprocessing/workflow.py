@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Self
 
 import polars as pl
+from tqdm import tqdm
 
 from moonwatch.common import PathOrStr
 from moonwatch.config import MoonwatchConfig
@@ -28,11 +29,21 @@ class MoonwatchPostproWorkflow:
         )
 
     def run(self) -> "MoonwatchPostproWorkflowOutput":
+        return MoonwatchPostproWorkflowOutput(
+            active_event_df=self._get_active_event_df(),
+            unlock_event_df=self._get_unlock_event_df(),
+        )
+
+    def _get_active_event_df(self) -> pl.DataFrame:
         # 1) unify desktop and mobile active events into one table
         active_event_df = self.parser.unified_active_event_df
 
         # 2) run user-defined actions
-        for action in self.config.activeEventActions:
+        for action in tqdm(
+                self.config.activeEventActions,
+                desc="Processing ActiveEvent actions",
+                unit="action"
+        ):
             executor = ActiveEventActionExecutor.from_action(action)
             active_event_df = executor.run(active_event_df)
 
@@ -56,22 +67,49 @@ class MoonwatchPostproWorkflow:
         # 5) sort by time
         active_event_df = active_event_df.sort(pl.col("time"))
 
-        return MoonwatchPostproWorkflowOutput(
-            active_event_df=active_event_df,
-        )
+        return active_event_df
+
+    def _get_unlock_event_df(self) -> pl.DataFrame:
+        unlock_event_df = self.parser.device_unlock_event_df
+
+        # 1) sort by time
+        unlock_event_df = unlock_event_df.sort(pl.col("time"))
+
+        return unlock_event_df
 
 
 @dataclass
 class MoonwatchPostproWorkflowOutput:
     active_event_df: pl.DataFrame
+    unlock_event_df: pl.DataFrame
 
-    def write_active_event_df_parquet(self, path: PathOrStr) -> None:
-        df = (
+    @property
+    def simple_active_event_df(self) -> pl.DataFrame:
+        return (
             self.active_event_df
             .filter(pl.col("ignore").not_())
-            .drop("idleFor")
+            .drop("idleFor", "ignore")
             .with_columns(
                 pl.col("duration").dt.total_seconds()
             )
         )
-        df.write_parquet(Path(path))
+
+    def write_active_event_df_parquet(self, path: PathOrStr) -> None:
+        self.simple_active_event_df.write_parquet(Path(path))
+
+    def write_unlock_event_df_parquet(self, path: PathOrStr) -> None:
+        self.active_event_df.write_parquet(Path(path))
+
+    def write_database(self, connection: str) -> None:
+        self.simple_active_event_df.write_database(
+            table_name="active_event",
+            connection=connection,
+            engine="adbc",
+            if_table_exists="replace",
+        )
+        self.unlock_event_df.write_database(
+            table_name="unlock_event",
+            connection=connection,
+            engine="adbc",
+            if_table_exists="replace",
+        )
